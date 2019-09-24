@@ -5,35 +5,40 @@ import Step from "./components/step"
 import Button from "./components/button"
 // todo: support different sounds (at least 3 and one without sound
 import clave from "./sound/index"
+import { setBetterInterval } from './util/betterInterval'
 let interval;
 
 export default function App() {
 
   // todo: refactor to better structure
+  // todo: is useRef really necessary?
   const [lastTapTempoDate, setLastTapTempoDate] = useState(new Date())
   const [steps, setSteps] = useState(4)
-  const [active, setActive] = useState(0)
+  const stepsRef = useRef(steps);
+  stepsRef.current = steps;
+  const [active, setActive] = useState(-1)
+  const activeRef = useRef(active);
+  activeRef.current = active;
   const [bpm, setBpm] = useState(80)
   const bpmRef = useRef(bpm);
   bpmRef.current = bpm;
   const [isPlaying, setIsPlaying] = useState(false)
 
-  function nextStep() {
-    setActive((active + 1) % steps)
-    clave.play();
-  }
 
   useEffect(() => {
-    // todo: better timing with WebAudio API?
-    clearInterval(interval);
+    interval && interval.clear();
     if (isPlaying) {
-        interval = setInterval(() => nextStep(), 60000/bpmRef.current)
+        interval = setBetterInterval(() => { setActive((activeRef.current + 1) % stepsRef.current); clave.play(); }, Math.round(60000/bpmRef.current));
     }
-  })
+  },[ isPlaying, bpm ])
 
   function togglePlay() {
+    if (isPlaying) {
+          setActive(-1);
+    }
     setIsPlaying(!isPlaying);
   }
+
 
   function tapTempo() {
       const now = new Date();
