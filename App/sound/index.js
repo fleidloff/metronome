@@ -11,4 +11,6 @@ const whoosh = new Sound("clave.wav", Sound.MAIN_BUNDLE, error => {
   }
 });
 
-export default whoosh;
+export default {
+    play: () => whoosh.stop(() => whoosh.play())
+};

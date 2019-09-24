@@ -8,6 +8,7 @@ let interval;
 
 export default function App() {
 
+  const [lastTapTempoDate, setLastTapTempoDate] = useState(new Date())
   const [steps, setSteps] = useState(4)
   const [active, setActive] = useState(0)
   const [bpm, setBpm] = useState(80)
@@ -17,9 +18,7 @@ export default function App() {
 
   function nextStep() {
     setActive((active + 1) % steps)
-    clave.stop(() => {
-        clave.play();
-    })
+    clave.play();
   }
 
   useEffect(() => {
@@ -31,6 +30,17 @@ export default function App() {
 
   function togglePlay() {
     setIsPlaying(!isPlaying);
+  }
+
+  function tapTempo() {
+      const now = new Date();
+      const diff = now.getTime() - lastTapTempoDate.getTime(); //ms
+      setLastTapTempoDate(now)
+      if (diff < 1500) {
+        setBpm(Math.min(Math.round(60000/diff), 240))
+      }
+
+      // todo advanced: calculate floating difference over last calculated differences
   }
 
   return (
@@ -50,7 +60,7 @@ export default function App() {
          </View>
        <View style={styles.controls}>
 
-        <Button text="Tap tempo" onPress={nextStep} />
+        <Button text="Tap tempo" onPress={tapTempo} />
         <Button text={isPlaying ? "Pause" : "Play"} onPress={togglePlay} active={isPlaying} />
       </View>
    </View>
