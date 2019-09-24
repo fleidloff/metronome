@@ -3,11 +3,13 @@ import { StyleSheet, Text, View } from 'react-native';
 
 import Step from "./components/step"
 import Button from "./components/button"
+// todo: support different sounds (at least 3 and one without sound
 import clave from "./sound/index"
 let interval;
 
 export default function App() {
 
+  // todo: refactor to better structure
   const [lastTapTempoDate, setLastTapTempoDate] = useState(new Date())
   const [steps, setSteps] = useState(4)
   const [active, setActive] = useState(0)
@@ -22,6 +24,7 @@ export default function App() {
   }
 
   useEffect(() => {
+    // todo: better timing with WebAudio API?
     clearInterval(interval);
     if (isPlaying) {
         interval = setInterval(() => nextStep(), 60000/bpmRef.current)
