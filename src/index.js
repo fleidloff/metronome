@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
-import Step from "./components/step"
+import useStep from "./components/useStep"
 import Button from "./components/button"
 // todo: support different sounds (at least 3 and one without sound
 import clave from "./sound/index"
@@ -24,11 +24,17 @@ export default function App() {
   bpmRef.current = bpm;
   const [isPlaying, setIsPlaying] = useState(false)
 
+  const stepComponents = [...Array(steps).keys()].map(idx => useStep(idx))
 
   useEffect(() => {
     interval && interval.clear();
     if (isPlaying) {
-        interval = setBetterInterval(() => { setActive((activeRef.current + 1) % stepsRef.current); clave.play(); }, Math.round(60000/bpmRef.current));
+
+        interval = setBetterInterval(() => {
+            const nextStep = (activeRef.current + 1) % stepsRef.current;
+            setActive(nextStep);
+            stepComponents[nextStep].play();
+        }, Math.round(60000/bpmRef.current));
     }
   },[ isPlaying, bpm ])
 
@@ -58,7 +64,7 @@ export default function App() {
 
         </View>
        <View style={styles.steps}>
-         {[...Array(steps).keys()].map(step => <Step key={step} text={step + 1} active={step === active} />)}
+         {stepComponents.map(({ Component }, idx) => <Component key={idx} active={idx === active} />)}
        </View>
        <View style={styles.controls}>
        <Button text="-" onPress={() => setBpm(Math.max(bpm - 10, 40))} />
@@ -69,7 +75,7 @@ export default function App() {
        <View style={styles.controls}>
 
         <Button text="Tap tempo" onPress={tapTempo} />
-        <Button text={isPlaying ? "Pause" : "Play"} onPress={togglePlay} active={isPlaying} />
+        <Button text="▶" onPress={togglePlay} active={isPlaying} />
       </View>
    </View>
 
