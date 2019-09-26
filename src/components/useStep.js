@@ -4,7 +4,7 @@ import clave from "../sound/index"
 import Step from "./step"
 
 
-const useStep = () => {
+const useStep = (idx) => {
   const [isMuted, setIsMuted] = useState(false);
   const isMutedRef = useRef(isMuted);
   isMutedRef.current = isMuted;
@@ -19,8 +19,8 @@ const useStep = () => {
     setIsMuted(!isMuted)
   }
 
-  function Component({ active, text }) {
-    return <Step active={active} text={text} isMuted={isMuted} onPress={toggleIsMuted} />
+  function Component({ active }) {
+    return <Step active={active} text={idx+ 1} isMuted={isMuted} onPress={toggleIsMuted} />
   }
 
   return {

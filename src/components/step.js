@@ -5,11 +5,11 @@ import React from "react";
 export default function Step(props) {
   return (
     <TouchableHighlight
-      style={[styles.button, props.active && styles.buttonActive]}
+      style={[styles.button, props.active && styles.buttonActive, props.isMuted && props.active && styles.buttonIsMuted]}
       onPress={props.onPress}
     >
       <Text
-        style={[styles.buttonText, props.active && styles.buttonTextActive, props.isMuted && styles.buttonTextMuted]}
+        style={[styles.buttonText, props.active && styles.buttonTextActive ]}
       >
         {props.isMuted ? "" : props.text}
       </Text>
@@ -39,9 +39,7 @@ const styles = StyleSheet.create({
   buttonTextActive: {
     color: "#000000"
   },
-  buttonTextMuted: {
-      color: "#4390bc",
-      backgroundColor: "#83c0fc",
-      borderColor: "#83c0fc"
+  buttonIsMuted: {
+      backgroundColor: "#aaa"
     }
 });
