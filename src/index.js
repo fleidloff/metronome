@@ -3,24 +3,22 @@ import { StyleSheet, Text, View } from 'react-native';
 
 import useStep from "./components/useStep"
 import Button from "./components/button"
-// todo: support different sounds (at least 3 and one without sound
-import clave from "./sound/index"
+import TapTempo from "./components/tapTempo"
 import { setBetterInterval } from './util/betterInterval'
 let interval;
 
 export default function App() {
 
-  const [lastTapTempoDate, setLastTapTempoDate] = useState(new Date())
   const [steps, setSteps] = useState(4)
   const [active, setActive] = useState(-1)
   const [bpm, setBpm] = useState(80)
   const [isPlaying, setIsPlaying] = useState(false)
-  const [t, setT] = useState("")
   const [debug, setDebug] = useState(`test bpm: ${bpm}`)
 
   const stepComponents = [...Array(steps).keys()].map(idx => useStep(idx))
 
   useEffect(() => {
+    setDebug(`test bpm: ${bpm}`)
     interval && interval.clear();
     if (isPlaying) {
         interval = setBetterInterval(() => {
@@ -40,18 +38,6 @@ export default function App() {
     setIsPlaying(!isPlaying);
   }
 
-
-  function tapTempo() {
-      const now = new Date();
-      const diff = now.getTime() - lastTapTempoDate.getTime(); //ms
-      setLastTapTempoDate(now)
-      if (diff < 1500) {
-        setBpm(Math.min(Math.round(60000/diff), 240))
-      }
-
-      // todo advanced: calculate floating difference over last calculated differences
-  }
-
   return (
   <View style={{flex: 1}}>
         <View style={styles.container}>
@@ -69,7 +55,7 @@ export default function App() {
          </View>
        <View style={styles.controls}>
 
-        <Button text="Tap tempo" onPress={tapTempo} />
+        <TapTempo onChange={setBpm} />
         <Button text="▶" onPress={togglePlay} active={isPlaying} />
       </View>
    </View>
