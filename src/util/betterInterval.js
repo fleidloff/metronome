@@ -6,6 +6,7 @@ export function setBetterInterval(fn, duration) {
     let totalRuns = 0;
 
     function run() {
+        clearTimeout(timeout);
         const now = Date.now();
         if (!startTime) {
             startTime = now

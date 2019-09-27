@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useDebugValue } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
 import useStep from "./components/useStep"
@@ -10,33 +10,28 @@ let interval;
 
 export default function App() {
 
-  // todo: refactor to better structure
-  // todo: is useRef really necessary?
   const [lastTapTempoDate, setLastTapTempoDate] = useState(new Date())
   const [steps, setSteps] = useState(4)
-  const stepsRef = useRef(steps);
-  stepsRef.current = steps;
   const [active, setActive] = useState(-1)
-  const activeRef = useRef(active);
-  activeRef.current = active;
   const [bpm, setBpm] = useState(80)
-  const bpmRef = useRef(bpm);
-  bpmRef.current = bpm;
   const [isPlaying, setIsPlaying] = useState(false)
+  const [t, setT] = useState("")
+  const [debug, setDebug] = useState(`test bpm: ${bpm}`)
 
   const stepComponents = [...Array(steps).keys()].map(idx => useStep(idx))
 
   useEffect(() => {
     interval && interval.clear();
     if (isPlaying) {
-
         interval = setBetterInterval(() => {
-            const nextStep = (activeRef.current + 1) % stepsRef.current;
-            setActive(nextStep);
-            stepComponents[nextStep].play();
-        }, Math.round(60000/bpmRef.current));
+            setActive(active => {
+                const nextStep = (active + 1) % steps;
+                stepComponents[nextStep].play();
+                return nextStep;
+            });
+        }, Math.round(60000/bpm));
     }
-  },[ isPlaying, bpm ])
+  },[ isPlaying, bpm, steps ])
 
   function togglePlay() {
     if (isPlaying) {

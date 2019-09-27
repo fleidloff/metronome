@@ -6,13 +6,14 @@ import Step from "./step"
 
 const useStep = (idx) => {
   const [isMuted, setIsMuted] = useState(false);
-  const isMutedRef = useRef(isMuted);
-  isMutedRef.current = isMuted;
 
   function play() {
-    if (!isMutedRef.current) {
-        clave.play();
-    }
+    setIsMuted(isMuted => {
+        if (!isMuted) {
+            clave.play();
+        }
+        return isMuted;
+    })
   }
 
   function toggleIsMuted() {
@@ -25,8 +26,7 @@ const useStep = (idx) => {
 
   return {
     Component,
-    play,
-    isMuted: isMutedRef.current
+    play
   }
 };
 
