@@ -4,6 +4,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import useStep from "./components/useStep"
 import Button from "./components/button"
 import TapTempo from "./components/tapTempo"
+import Bpm from "./components/bpm"
 import { setBetterInterval } from './util/betterInterval'
 let interval;
 
@@ -48,9 +49,7 @@ export default function App() {
          {stepComponents.map(({ Component }, idx) => <Component key={idx} active={idx === active} />)}
        </View>
        <View style={styles.controls}>
-       <Button text="-" onPress={() => setBpm(Math.max(bpm - 10, 40))} />
-           <Text>{bpm} bpm, {isPlaying ? "playing" : "stopped"}</Text>
-      <Button text="+" onPress={() => setBpm(Math.min(bpm + 10, 240))} />
+       <Bpm bpm={bpm} onChange={setBpm} />
 
          </View>
        <View style={styles.controls}>
