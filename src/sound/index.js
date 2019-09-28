@@ -10,7 +10,9 @@ const whoosh = new Sound("clave.wav", Sound.MAIN_BUNDLE, error => {
     console.log("failed to load the sound", error);
   }
 });
-debugger;
+
+whoosh.setVolume(100);
+
 export default {
-    play: () => whoosh.stop(() => whoosh.play())
+  play: () => whoosh.stop(() => whoosh.play())
 };

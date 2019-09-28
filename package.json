@@ -6,7 +6,8 @@
     "web": "expo start --web",
     "start": "react-native start",
     "test": "jest",
-    "lint": "eslint ./App/**/*.js --fix"
+    "lint": "eslint ./src/**/*.js --fix",
+    "prettier": "prettier ./src/**/*.js --write && prettier ./src/*.js --write"
   },
   "dependencies": {
     "babel-eslint": "^10.0.3",

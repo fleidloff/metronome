@@ -3,17 +3,17 @@ import { Text, View, Picker } from "react-native";
 
 import Button from "./button";
 
-export default function Bpm({ onChange, bpm }) {
+export default function Steps({ onChange, steps }) {
   return (
     <Picker
       style={{ height: 50, width: 150 }}
-      selectedValue={bpm}
+      selectedValue={steps}
       onValueChange={value => onChange(value)}
     >
-      {[...Array(120).keys()]
-        .map(key => key + 40)
+      {[...Array(16).keys()]
+        .map(key => key + 1)
         .map(key => (
-          <Picker.Item label={`${key} bpm`} key={key} value={key} />
+          <Picker.Item label={`${key} steps`} key={key} value={key} />
         ))}
     </Picker>
   );
