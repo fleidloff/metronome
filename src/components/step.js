@@ -28,8 +28,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     margin: 10,
     overflow: "hidden",
-    height: 50,
-    width: 50,
+    height: 70,
+    width: 70,
     padding: 10
   },
   buttonActive: {

@@ -9,13 +9,15 @@ import Steps from "./components/steps";
 import { setBetterInterval } from "./util/betterInterval";
 let interval;
 
+const MAX_STEPS = 16;
+
 export default function App() {
   const [steps, setSteps] = useState(4);
   const [active, setActive] = useState(-1);
   const [bpm, setBpm] = useState(80);
   const [isPlaying, setIsPlaying] = useState(false);
 
-  const stepComponents = [...Array(steps).keys()].map(idx => useStep(idx));
+  const stepComponents = [...Array(MAX_STEPS).keys()].map(idx => useStep(idx));
 
   useEffect(() => {
     interval && interval.clear();
@@ -43,9 +45,12 @@ export default function App() {
         <Text style={styles.title}>M e t r o n o m e !</Text>
       </View>
       <View style={styles.steps}>
-        {stepComponents.map(({ Component }, idx) => (
-          <Component key={idx} active={idx === active} />
+        {stepComponents.slice(0, steps).map(({ Component }, idx) => (
+          <Component style={styles.step} key={idx} active={idx === active} />
         ))}
+      </View>
+      <View style={styles.controls}>
+        <Steps steps={steps} onChange={setSteps} max={MAX_STEPS} />
       </View>
       <View style={styles.controls}>
         <TapTempo onChange={setBpm} />
@@ -71,6 +76,9 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
     backgroundColor: "#ddd",
     flexWrap: "wrap"
+  },
+  step: {
+    flexBasis: "21"
   },
   controls: {
     flex: 1,
