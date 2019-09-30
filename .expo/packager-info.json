@@ -1,0 +1,10 @@
+{
+  "devToolsPort": 19002,
+  "expoServerPort": null,
+  "packagerPort": null,
+  "packagerPid": null,
+  "expoServerNgrokUrl": "https://kc-meh.anonymous.metronome.exp.direct",
+  "packagerNgrokUrl": "https://packager.kc-meh.anonymous.metronome.exp.direct",
+  "ngrokPid": 17554,
+  "webpackServerPort": null
+}
