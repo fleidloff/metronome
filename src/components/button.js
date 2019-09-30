@@ -1,42 +1,21 @@
 import { StyleSheet } from "react-native";
 import { Text, TouchableHighlight } from "react-native";
 import React from "react";
+import { Button } from 'react-native-material-ui';
 
-export default function Button(props) {
+export default function Component(props) {
   return (
-    <TouchableHighlight
-      style={[styles.button, props.active && styles.buttonActive]}
-      onPress={props.onPress}
-    >
-      <Text
-        style={[styles.buttonText, props.active && styles.buttonTextActive]}
-      >
-        {props.text}
-      </Text>
-    </TouchableHighlight>
+        <Button raised text={props.text} primary={props.active} onPress={props.onPress} style={styles}/> // flat button with primary color
   );
 }
 
 const styles = StyleSheet.create({
-  button: {
-    backgroundColor: "#4390bc",
-    borderRadius: 5,
+  container: {
     justifyContent: "center",
     margin: 10,
-    overflow: "hidden",
     height: 50,
     minWidth: 50,
     padding: 10
   },
-  buttonActive: {
-    backgroundColor: "yellow"
-  },
-  buttonText: {
-    color: "#ffffff",
-    fontSize: 20,
-    textAlign: "center"
-  },
-  buttonTextActive: {
-    color: "#000000"
-  }
+  text: {}
 });
