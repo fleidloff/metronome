@@ -8,7 +8,7 @@
     "test": "jest",
     "lint": "eslint ./src/**/*.js --fix",
     "prettier": "prettier ./src/**/*.js --write && prettier ./src/*.js --write",
-    "link": "react-native link react-native-vector-icons"
+    "release-android": "cd android && ./gradlew assembleRelease && cd .."
   },
   "dependencies": {
     "babel-eslint": "^10.0.3",

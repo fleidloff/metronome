@@ -1,4 +1,6 @@
 import React, { useState, useRef } from "react";
+import { Vibration } from "react-native";
+
 
 import clave from "../sound/index";
 import Step from "./step";
@@ -10,6 +12,7 @@ const useStep = idx => {
     setIsMuted(isMuted => {
       if (!isMuted) {
         clave.play();
+        Vibration.vibrate(10);
       }
       return isMuted;
     });
